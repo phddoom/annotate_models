@@ -376,6 +376,13 @@ end
       @model_dir = Dir.mktmpdir('annotate_models')
       (@model_file_name, @file_content) = write_model "user.rb", <<-EOS
 class User < ActiveRecord::Base
+
+
+
+## REGEX MARKER
+
+
+
 end
       EOS
 
@@ -418,6 +425,12 @@ end
     it "should put annotation before class if :position == 'before'" do
       annotate_one_file :position => "before"
       expect(File.read(@model_file_name)).to eq("#{@schema_info}\n#{@file_content}")
+    end
+
+    it "should put annotation after matching regexp if :position is a regex" do
+      marker = /## REGEX MARKER/
+      annotate_one_file :position => marker
+      expect(File.read(@model_file_name)).to eq(@file_content.gsub(marker,"#{marker.source}\n#{@schema_info}\n"))
     end
 
     it "should put annotation before class if :position => :before" do
