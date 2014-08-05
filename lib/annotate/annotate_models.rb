@@ -248,11 +248,14 @@ module AnnotateModels
             old_content.sub!(PATTERN, '')
 
             new_content = case options[position]
+                          # Place annotation after entire contents of file
                           when ->(p){ p.to_s == 'after'}
                             (encoding_header + (old_content.rstrip + "\n\n" + info_block))
+                          # Place annotation after regex match in file
                           when ->(p){ p.to_s != '' && p.to_s != 'after' && p.to_s != 'before'}
                             encoding_header +
                               old_content.gsub(Regexp.new(options[position])){|s| s << "\n#{info_block}\n"}
+                          # Place annotation before entire contents of file
                           else
                             (encoding_header + info_block + "\n" + old_content)
                           end
