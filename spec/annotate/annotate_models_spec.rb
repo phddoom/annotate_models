@@ -379,7 +379,7 @@ class User < ActiveRecord::Base
 
 
 
-## REGEX MARKER
+## REGEX MARKER #######################################
 
 
 

@@ -32,7 +32,7 @@ OptionParser.new do |opts|
     target[:task] = :remove_annotations
   end
 
-  opts.on('-p', '--position [before|after]', ['before', 'after'],
+  opts.on('-p', '--position [before|after|regex]',
           "Place the annotations at the top (before) or the bottom (after) of the model/test/fixture/factory/routes file(s)") do |p|
     ENV['position'] = p
     [
